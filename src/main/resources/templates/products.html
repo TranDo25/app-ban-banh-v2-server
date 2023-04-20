@@ -57,7 +57,7 @@
         <tr th:each = "product: ${products}">
             <td th:text = "${product.tenSp}"></td>
             <td>
-                <img th:src="@{/api/admin/product/image/{fileName}(fileName=${product.imageName})}" alt="anh product">
+                <img th:src="@{/api/admin/product/image/{fileName}(fileName=${product.imageName})}" width="100px" height="100px" alt="anh product">
             </td>
             <td th:text = "${product.moTa}"></td>
             <td th:text = "${product.gia}"></td>
