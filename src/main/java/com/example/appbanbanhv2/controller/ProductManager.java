@@ -42,7 +42,7 @@ public class ProductManager {
 		model.addAttribute("products", tmp);
 		return "products";
 	}
-
+//api này lấy toàn bộ product
 	@GetMapping("/api/admin/products")
 	public ResponseEntity<List<ProductWithImageDTO>> apiListProduct(Model model) {
 //        model.addAttribute("products", productsService.findAll());
@@ -55,7 +55,19 @@ public class ProductManager {
 //                model.addAttribute("products", tmp);
 		return ResponseEntity.ok(tmp);
 	}
+	//api này lấy ra tất cả danh sách sản phẩm theo id category
+	@GetMapping("/api/admin/productsByCategory/{id}")
+	public ResponseEntity<List<ProductWithImageDTO>> apiListProductByCategory(@PathVariable("id") int id) {
+//        model.addAttribute("products", productsService.findAll());
+		List<ProductWithImageDTO> tmp = productsService.findAllProductByCategory(id);
 
+		for (ProductWithImageDTO i : tmp) {
+			String pathUrl = "localhost:8080/api/admin/product/image/";
+			i.setImageName(pathUrl + i.getImageName());
+		}
+//          model.addAttribute("products", tmp);
+		return ResponseEntity.ok(tmp);
+	}
 	@GetMapping("/admin/products/addProduct")
 	public String addProductForm(Model model) {
 		ProductsDTO tmp = new ProductsDTO();
@@ -64,7 +76,7 @@ public class ProductManager {
 		model.addAttribute("listCategory", listCategory);
 		return "create_product";
 	}
-
+// api tìm kiếm sản phẩm theo chuỗi tìm kiếm
 	@GetMapping("/api/admin/searchProductByName")
 	public ResponseEntity<List<ProductWithImageDTO>> searchProductByName(
 			@RequestParam("searchString") String searchString) {
@@ -74,9 +86,14 @@ public class ProductManager {
 			i.setImageName(pathUrl + i.getImageName());
 		}
 		return ResponseEntity.ok(tmp);
-
 	}
-
+//api get chi tiết sản phẩm theo id
+	@GetMapping("/api/admin/getDetailProductById")
+	public ResponseEntity<ProductWithImageDTO> getDetailProductById(@RequestParam("id") int id){
+		ProductWithImageDTO tmp = productsService.getProductWithImageById(id);
+		return  ResponseEntity.ok(tmp);
+	}
+	
 	@PostMapping("/api/admin/product/uploadImage")
 	public ResponseEntity<?> ApiUploadImage(@RequestParam("image") MultipartFile file) throws IOException {
 		String uploadImage = service.uploadImage(file);

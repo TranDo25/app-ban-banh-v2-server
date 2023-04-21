@@ -37,4 +37,8 @@ public interface ProductsService {
     List<ProductWithImageDTO> findAllProductAndItsImage();
 
 	List<ProductWithImageDTO> searchProductByName(String searchString);
+
+	List<ProductWithImageDTO> findAllProductByCategory(int id);
+
+	ProductWithImageDTO getProductWithImageById(int id);
 }
