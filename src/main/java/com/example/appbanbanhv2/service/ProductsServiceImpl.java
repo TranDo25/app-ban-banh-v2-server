@@ -94,4 +94,20 @@ public class ProductsServiceImpl implements ProductsService {
         return res;
     }
 
+
+	public List<ProductWithImageDTO> searchProductByName(String searchString) {
+		 List<Products> listProduct = productsRepository.searchAllWithSearchString(searchString);
+		  List<ProductWithImageDTO> res = new ArrayList<>();
+		  for (Products i : listProduct) {
+	            int idProduct = i.getId();
+	            ProductWithImageDTO tmp = new ProductWithImageDTO();
+	            BeanUtils.copyProperties(i, tmp);
+	            tmp.setImageName(storageRepository.getImageNameByIdProduct(idProduct));
+	            res.add(tmp);
+
+	        }
+	        return res;
+		
+	}
+
 }

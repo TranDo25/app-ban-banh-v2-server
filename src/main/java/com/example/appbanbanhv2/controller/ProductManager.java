@@ -23,87 +23,105 @@ import java.util.List;
 
 @Controller
 public class ProductManager {
-    @Autowired
-    private ProductsService productsService;
-    @Autowired
-    private StorageService service;
-    @Autowired
-    private CategoryService categoryService;
+	@Autowired
+	private ProductsService productsService;
+	@Autowired
+	private StorageService service;
+	@Autowired
+	private CategoryService categoryService;
 
-    @GetMapping("/admin/products")
-    public String listProduct(Model model) {
+	@GetMapping("/admin/products")
+	public String listProduct(Model model) {
 //        model.addAttribute("products", productsService.findAll());
-        List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
+		List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
 
 //        for(ProductWithImageDTO i:tmp){
 //            String pathUrl = "/api/admin/product/image/";
 //            i.setImageName(pathUrl+ i.getImageName());
 //        }
-                model.addAttribute("products", tmp);
-        return "products";
-    }
+		model.addAttribute("products", tmp);
+		return "products";
+	}
 
-    @GetMapping("/admin/products/addProduct")
-    public String addProductForm(Model model) {
-        ProductsDTO tmp = new ProductsDTO();
-        model.addAttribute("product", tmp);
-        List<Category> listCategory = categoryService.findAll();
-        model.addAttribute("listCategory", listCategory);
-        return "create_product";
-    }
+	@GetMapping("/api/admin/products")
+	public ResponseEntity<List<ProductWithImageDTO>> apiListProduct(Model model) {
+//        model.addAttribute("products", productsService.findAll());
+		List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
 
-    @PostMapping("/api/admin/product/uploadImage")
-    public ResponseEntity<?> ApiUploadImage(@RequestParam("image") MultipartFile file) throws IOException {
-        String uploadImage = service.uploadImage(file);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(uploadImage);
-    }
+		for (ProductWithImageDTO i : tmp) {
+			String pathUrl = "localhost:8080/api/admin/product/image/";
+			i.setImageName(pathUrl + i.getImageName());
+		}
+//                model.addAttribute("products", tmp);
+		return ResponseEntity.ok(tmp);
+	}
 
-    @PostMapping("/admin/product/uploadImage")
-    public String createProduct(@ModelAttribute ProductsDTO product, Model model) throws IOException {
-        Products tmp = new Products();
-        BeanUtils.copyProperties(product, tmp);
-        tmp.setId(0);
-        try {
-            productsService.save(tmp);
-        } catch (Exception e) {
-            System.out.println("error in save product");
-        }
+	@GetMapping("/admin/products/addProduct")
+	public String addProductForm(Model model) {
+		ProductsDTO tmp = new ProductsDTO();
+		model.addAttribute("product", tmp);
+		List<Category> listCategory = categoryService.findAll();
+		model.addAttribute("listCategory", listCategory);
+		return "create_product";
+	}
 
-        long newestProductId = productsService.getNewestProductId();
-        try {
-            String uploadImage = service.uploadImage(product.getImage(), newestProductId);
-            model.addAttribute("message", uploadImage);
-            model.addAttribute("product", product);
-        } catch (Exception e) {
-            System.out.println("Error in update image");
-        }
-        return "create_product";
-    }
+	@GetMapping("/api/admin/searchProductByName")
+	public ResponseEntity<List<ProductWithImageDTO>> searchProductByName(
+			@RequestParam("searchString") String searchString) {
+		List<ProductWithImageDTO> tmp = productsService.searchProductByName(searchString);
+		for (ProductWithImageDTO i : tmp) {
+			String pathUrl = "localhost:8080/api/admin/product/image/";
+			i.setImageName(pathUrl + i.getImageName());
+		}
+		return ResponseEntity.ok(tmp);
 
-    @GetMapping("/api/admin/product/image/{fileName}")
-    public ResponseEntity<?> downloadImage(@PathVariable String fileName) {
-        byte[] imageData = service.downloadImage(fileName);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
+	}
 
-    }
+	@PostMapping("/api/admin/product/uploadImage")
+	public ResponseEntity<?> ApiUploadImage(@RequestParam("image") MultipartFile file) throws IOException {
+		String uploadImage = service.uploadImage(file);
+		return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
+	}
 
+	@PostMapping("/admin/product/uploadImage")
+	public String createProduct(@ModelAttribute ProductsDTO product, Model model) throws IOException {
+		Products tmp = new Products();
+		BeanUtils.copyProperties(product, tmp);
+		tmp.setId(0);
+		try {
+			productsService.save(tmp);
+		} catch (Exception e) {
+			System.out.println("error in save product");
+		}
 
-    @PostMapping("/api/admin/product/image//fileSystem")
-    public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image") MultipartFile file) throws IOException {
-        String uploadImage = service.uploadImageToFileSystem(file);
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(uploadImage);
-    }
+		long newestProductId = productsService.getNewestProductId();
+		try {
+			String uploadImage = service.uploadImage(product.getImage(), newestProductId);
+			model.addAttribute("message", uploadImage);
+			model.addAttribute("product", product);
+		} catch (Exception e) {
+			System.out.println("Error in update image");
+		}
+		return "create_product";
+	}
 
-    @GetMapping("/api/admin/product/image//fileSystem/{fileName}")
-    public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException {
-        byte[] imageData = service.downloadImageFromFileSystem(fileName);
-        return ResponseEntity.status(HttpStatus.OK)
-                .contentType(MediaType.valueOf("image/png"))
-                .body(imageData);
+	@GetMapping("/api/admin/product/image/{fileName}")
+	public ResponseEntity<?> downloadImage(@PathVariable String fileName) {
+		byte[] imageData = service.downloadImage(fileName);
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
 
-    }
+	}
+
+	@PostMapping("/api/admin/product/image//fileSystem")
+	public ResponseEntity<?> uploadImageToFIleSystem(@RequestParam("image") MultipartFile file) throws IOException {
+		String uploadImage = service.uploadImageToFileSystem(file);
+		return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
+	}
+
+	@GetMapping("/api/admin/product/image//fileSystem/{fileName}")
+	public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException {
+		byte[] imageData = service.downloadImageFromFileSystem(fileName);
+		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
+
+	}
 }
