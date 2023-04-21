@@ -35,4 +35,6 @@ public interface ProductsService {
     long getNewestProductId();
 
     List<ProductWithImageDTO> findAllProductAndItsImage();
+
+	List<ProductWithImageDTO> searchProductByName(String searchString);
 }
