@@ -15,8 +15,12 @@ public interface ProductsRepository extends JpaRepository<Products, Integer> {
     List<Products> find10product();
     @Query(value = "SELECT id FROM products ORDER BY id DESC LIMIT 1", nativeQuery = true)
     long getNewestProductId();
+    //lấy ra danh sách sản phẩm theo chuỗi tìm kiếm
     @Query(value="SELECT * FROM products WHERE products.ten_sp LIKE %:searchString%", nativeQuery = true)
 	List<Products> searchAllWithSearchString(String searchString);
+    //lấy ra danh sách sản phẩm theo id danh mục
+    @Query(value="SELECT * FROM products WHERE products.category_id = ?1", nativeQuery = true)
+	List<Products> getAllProductByIdCategory(int id);
 
 
 }
