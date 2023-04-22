@@ -19,6 +19,11 @@ public class ProductYeuThichServiceImpl implements ProductYeuThichService {
     private ProductYeuThichRepository productyeuthichRepository;
 
     @Override
+    public Optional<ProductYeuThich> findByproduct_idAndUser_id(Integer productId, String userId) {
+        return productyeuthichRepository.findProductYeuThichByIdProductAndUsersId(productId,userId);
+    }
+
+    @Override
     public ProductYeuThich save(ProductYeuThich productyeuthich) {
         return productyeuthichRepository.save(productyeuthich);
     }

@@ -32,4 +32,8 @@ public interface CartService {
 
 	GioHangModel getGioHangByIdUser(String idUser);
 
+	Cart findById(int cartId);
+
+	String changeNumberOfItem(int cartId, int soluong);
+
 }

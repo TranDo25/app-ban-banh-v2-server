@@ -13,7 +13,7 @@ public interface UsersService {
 
     Users save(Users users);
 
-    Optional<Users> find(Long id);
+    Optional<Users> find(String id);
 
     List<Users> findAll();
 
@@ -21,7 +21,7 @@ public interface UsersService {
 
     Page<Users> findAll(Pageable pageable);
 
-    void delete(Long id);
+    void delete(String id);
 
     void delete(Users users);
 

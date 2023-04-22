@@ -79,4 +79,27 @@ public class CartServiceImpl implements CartService {
 		return res;
 	}
 
+	@Override
+	public Cart findById(int cartId) {
+		return cartRepository.findById((long) cartId).get();
+	}
+
+	@Override
+	public String changeNumberOfItem(int cartId, int soluong) {
+		Cart tmp = cartRepository.findById((long) cartId).get();
+		tmp.setSoluong(soluong);
+		String res = "";
+		try {
+			cartRepository.save(tmp);
+			res += "successful";
+			
+		}catch(Exception e) {
+			res += "error in change number of cart item";
+		}
+		return res;
+	}
+
+	
+	
+
 }
