@@ -171,17 +171,20 @@ public class OrdersServiceImpl implements OrdersService {
             String status = "";
             Orders tmp = orders.get();
             switch (codeStatus) {
+                case 0 : status = "paid";
+                    break;
+
                 case 1:
-                    status = status + "delivered";
+                    status =  "delivered";
                     break;
                 case 2:
-                    status = status + "delivering";
+                    status = "delivering";
                     break;
                 case 3:
-                    status = status + "pending";
+                    status =  "pending";
                     break;
                 case 4:
-                    status = status + "cancel";
+                    status =   "cancel";
                     break;
                 default:
                     status = "created";
