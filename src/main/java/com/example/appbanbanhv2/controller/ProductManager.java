@@ -109,8 +109,14 @@ public class ProductManager {
 		} catch (Exception e) {
 			System.out.println("error in save product");
 		}
-
-		long newestProductId = productsService.getNewestProductId();
+		long newestProductId;
+		int count = (int) productsService.count();
+		if(count == 0){
+			newestProductId = 1;
+		}
+		else{
+			newestProductId = productsService.getNewestProductId();
+		}
 		try {
 			String uploadImage = service.uploadImage(product.getImage(), newestProductId);
 			model.addAttribute("message", uploadImage);
