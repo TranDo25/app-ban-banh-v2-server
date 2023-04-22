@@ -35,4 +35,6 @@ public interface OrdersService {
     String setThongTinGiaoHang(int idOrder, String sdt, String diaChiGiaoHang);
 
     String setToken(int idOrder, String token);
+
+    String setTrangThaiDonHang(int idOrder, Integer codeStatus);
 }

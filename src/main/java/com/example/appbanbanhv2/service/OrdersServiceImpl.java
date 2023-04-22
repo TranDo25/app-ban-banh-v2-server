@@ -164,4 +164,37 @@ public class OrdersServiceImpl implements OrdersService {
         return message ;
     }
 
+    @Override
+    public String setTrangThaiDonHang(int idOrder, Integer codeStatus) {
+        String message = "";
+
+        Optional<Orders> orders = ordersRepository.findById((long) idOrder);
+        if(orders.isPresent())
+        {   String status = "";
+            Orders tmp = orders.get();
+            switch (codeStatus){
+                case 1: status= status+"delivered";
+
+                case 2: status= status+"delivering";
+
+                case 3: status= status+"pending";
+
+                case 4: status= status+"cancel";
+
+                default: status= "create";
+            }
+            tmp.setTrangThaiDonHang(status);
+            try {
+                ordersRepository.save(tmp);
+                message = "set trangThaiDonHang successful";
+            } catch (Exception e) {
+                message = "error in set trangThaiDonHang ";
+            }
+        }
+        else  message = "not find orders";
+
+
+        return message ;
+    }
+
 }
