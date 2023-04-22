@@ -11,6 +11,9 @@ import java.util.Optional;
 
 public interface ProductYeuThichService {
 
+    Optional<ProductYeuThich> findByproduct_idAndUser_id(Integer productId, String userId) ;
+
+
     ProductYeuThich save(ProductYeuThich productyeuthich);
 
     Optional<ProductYeuThich> find(Long id);
