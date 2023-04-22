@@ -27,7 +27,7 @@ public class UsersController {
     public Users save(@RequestBody Users users){
         return usersService.save(users);
     }
-
+//api thêm sản phẩm yêu thích
     @GetMapping("/users/like")
     public ResponseEntity<String> likeProduct(@RequestParam("product_id") Integer product_id, @RequestParam("users_id") String user_id ){
    Optional <ProductYeuThich> productYeuThich = productYeuThichService.findByproduct_idAndUser_id(product_id,user_id);
