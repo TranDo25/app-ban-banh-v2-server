@@ -40,6 +40,7 @@ public class OrderManager {
         String tmp = orderService.setTrangThaiDonHang(idOrder,codeStatus);
         return ResponseEntity.ok(tmp);
     }
+    //get chi tiết order
     @GetMapping("/api/order/getChiTietOrder")
     public ResponseEntity<ChiTietOrderDTO> getChiTietOrder(@RequestParam("idDonHang") int idOrder )
     {
