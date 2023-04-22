@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "orders")
 public class Orders {
+
     @Id
     @Column(name = "id")
     private Integer id;
@@ -12,8 +13,6 @@ public class Orders {
     @Column(name = "ngay_tao_don")
     private String ngayTaoDon;
 
-    @Column(name = "tong_tien")
-    private Integer tongTien;
 
     @Column(name = "trang_thai_don_hang")
     private String trangThaiDonHang;
@@ -33,6 +32,21 @@ public class Orders {
     @Column(name = "diachigiaohang")
     private String diachigiaohang;
 
+    public Orders(int id,String ngayTaoDon, String trangThaiDonHang, String momoToken, String sdt, Integer soluong, Double tongtien, String diachigiaohang) {
+        this.id = id;
+        this.ngayTaoDon = ngayTaoDon;
+        this.trangThaiDonHang = trangThaiDonHang;
+        this.momoToken = momoToken;
+        this.sdt = sdt;
+        this.soluong = soluong;
+        this.tongtien = tongtien;
+        this.diachigiaohang = diachigiaohang;
+    }
+
+    public Orders() {
+
+    }
+
     public Integer getId() {
         return this.id;
     }
@@ -49,13 +63,7 @@ public class Orders {
         this.ngayTaoDon = ngayTaoDon;
     }
 
-    public Integer getTongTien() {
-        return this.tongTien;
-    }
 
-    public void setTongTien(Integer tongTien) {
-        this.tongTien = tongTien;
-    }
 
     public String getTrangThaiDonHang() {
         return this.trangThaiDonHang;

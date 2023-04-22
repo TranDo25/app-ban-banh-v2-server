@@ -2,9 +2,11 @@ package com.example.appbanbanhv2.entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serializable;
+
 @Entity
 @Table(name = "cart")
-public class Cart {
+public class Cart implements Serializable {
     @Id
     @Column(name = "id")
     private Integer id;

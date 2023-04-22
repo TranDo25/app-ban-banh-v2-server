@@ -98,7 +98,7 @@ public class ProductManager {
 		String uploadImage = service.uploadImage(file);
 		return ResponseEntity.status(HttpStatus.OK).body(uploadImage);
 	}
-
+//api save image
 	@PostMapping("/admin/product/uploadImage")
 	public String createProduct(@ModelAttribute ProductsDTO product, Model model) throws IOException {
 		Products tmp = new Products();

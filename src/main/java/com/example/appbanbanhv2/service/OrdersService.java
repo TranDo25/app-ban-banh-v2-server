@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.service;
 
+import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.entity.Orders;
 
 import org.springframework.data.domain.Page;
@@ -29,4 +30,7 @@ public interface OrdersService {
 
     long count();
 
+    String createOrder(List<Cart> dsCart);
+
+    String setThongTinGiaoHang(int idOrder, String sdt, String diaChiGiaoHang);
 }
