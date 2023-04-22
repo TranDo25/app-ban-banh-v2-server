@@ -64,8 +64,8 @@ public class ProductYeuThichServiceImpl implements ProductYeuThichService {
     }
 
     @Override
-    public long count() {
-        return productyeuthichRepository.count();
+    public int count() {
+        return (int) productyeuthichRepository.count();
     }
 
 }

@@ -30,6 +30,6 @@ public interface ProductYeuThichService {
 
     void deleteAll();
 
-    long count();
+    int count();
 
 }

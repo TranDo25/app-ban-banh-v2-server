@@ -33,8 +33,10 @@ public class UsersController {
    Optional <ProductYeuThich> productYeuThich = productYeuThichService.findByproduct_idAndUser_id(product_id,user_id);
    if(productYeuThich.isPresent()) return ResponseEntity.ok("San pham da duoc yeu thich");
    ProductYeuThich productYeuThich1 = new ProductYeuThich();
+
    productYeuThich1.setIdProduct(product_id);
    productYeuThich1.setUsersId(user_id);
+   productYeuThich1.setId(productYeuThichService.count()+1);
    productYeuThichService.save(productYeuThich1);
    return ResponseEntity.ok("ok");
 
