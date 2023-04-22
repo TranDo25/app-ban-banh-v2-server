@@ -29,6 +29,8 @@ public class OrderManager {
         String tmp = orderService.setToken(idOrder,token);
         return ResponseEntity.ok(tmp);
     }
+    //set trạng thái đơn hàng
+    @PutMapping("/api/order/changeOrderStatus")
     public ResponseEntity<String> setTrangThaiDonHang(@RequestParam("idDonHang") int idOrder, @RequestParam("codeStatus") Integer codeStatus )
     {
         String tmp = orderService.setTrangThaiDonHang(idOrder,codeStatus);

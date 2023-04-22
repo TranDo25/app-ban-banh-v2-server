@@ -100,11 +100,10 @@ public class OrdersServiceImpl implements OrdersService {
             for (Cart i : dsCart) {
                 ChiTietOrder chiTietOrder = new ChiTietOrder();
                 int countRecordInChiTietOrder = (int) _chiTietOrderRepository.count();
-                if(countRecordInChiTietOrder == 0){
+                if (countRecordInChiTietOrder == 0) {
                     chiTietOrder.setId(1);
-                }
-                else{
-                    int theLastestChiTietOrderId = _chiTietOrderRepository.getTheLastestId()+1;
+                } else {
+                    int theLastestChiTietOrderId = _chiTietOrderRepository.getTheLastestId() + 1;
                     chiTietOrder.setId(theLastestChiTietOrderId);
                 }
                 chiTietOrder.setCartId(i.getId());
@@ -116,7 +115,8 @@ public class OrdersServiceImpl implements OrdersService {
             res = "successful";
         } catch (Exception e) {
             res = "error in create order";
-        } return res;
+        }
+        return res;
 
     }
 
@@ -147,8 +147,7 @@ public class OrdersServiceImpl implements OrdersService {
         String message = "";
 
         Optional<Orders> orders = ordersRepository.findById((long) idOrder);
-        if(orders.isPresent())
-        {
+        if (orders.isPresent()) {
             Orders tmp = orders.get();
             tmp.setMomoToken(token);
             try {
@@ -157,11 +156,10 @@ public class OrdersServiceImpl implements OrdersService {
             } catch (Exception e) {
                 message = "error in set token";
             }
-        }
-        else  message = "not find orders";
+        } else message = "not find orders";
 
 
-        return message ;
+        return message;
     }
 
     @Override
@@ -169,19 +167,24 @@ public class OrdersServiceImpl implements OrdersService {
         String message = "";
 
         Optional<Orders> orders = ordersRepository.findById((long) idOrder);
-        if(orders.isPresent())
-        {   String status = "";
+        if (orders.isPresent()) {
+            String status = "";
             Orders tmp = orders.get();
-            switch (codeStatus){
-                case 1: status= status+"delivered";
-
-                case 2: status= status+"delivering";
-
-                case 3: status= status+"pending";
-
-                case 4: status= status+"cancel";
-
-                default: status= "create";
+            switch (codeStatus) {
+                case 1:
+                    status = status + "delivered";
+                    break;
+                case 2:
+                    status = status + "delivering";
+                    break;
+                case 3:
+                    status = status + "pending";
+                    break;
+                case 4:
+                    status = status + "cancel";
+                    break;
+                default:
+                    status = "created";
             }
             tmp.setTrangThaiDonHang(status);
             try {
@@ -190,11 +193,10 @@ public class OrdersServiceImpl implements OrdersService {
             } catch (Exception e) {
                 message = "error in set trangThaiDonHang ";
             }
-        }
-        else  message = "not find orders";
+        } else message = "not find orders";
 
 
-        return message ;
+        return message;
     }
 
 }
