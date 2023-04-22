@@ -33,4 +33,6 @@ public interface OrdersService {
     String createOrder(List<Cart> dsCart);
 
     String setThongTinGiaoHang(int idOrder, String sdt, String diaChiGiaoHang);
+
+    String setToken(int idOrder, String token);
 }

@@ -142,4 +142,26 @@ public class OrdersServiceImpl implements OrdersService {
         return message;
     }
 
+    @Override
+    public String setToken(int idOrder, String token) {
+        String message = "";
+
+        Optional<Orders> orders = ordersRepository.findById((long) idOrder);
+        if(orders.isPresent())
+        {
+            Orders tmp = orders.get();
+            tmp.setMomoToken(token);
+            try {
+                ordersRepository.save(tmp);
+                message = "set token successful";
+            } catch (Exception e) {
+                message = "error in set token";
+            }
+        }
+        else  message = "not find orders";
+
+
+        return message ;
+    }
+
 }

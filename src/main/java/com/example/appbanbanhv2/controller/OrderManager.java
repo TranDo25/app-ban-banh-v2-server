@@ -23,4 +23,10 @@ public class OrderManager {
         String tmp = orderService.setThongTinGiaoHang(idOrder,sdt,diaChiGiaoHang);
         return ResponseEntity.ok(tmp);
     }
+    @PutMapping("/api/order/setToken")
+    public ResponseEntity<String> setToken(@RequestParam("idDonHang") int idOrder, @RequestParam("token") String token )
+    {
+        String tmp = orderService.setToken(idOrder,token);
+        return ResponseEntity.ok(tmp);
+    }
 }
