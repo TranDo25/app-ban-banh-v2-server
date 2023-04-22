@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.controller;
 
+import com.example.appbanbanhv2.dto.ChiTietOrderDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +19,32 @@ public class OrderManager {
        String tmp = orderService.createOrder(dsCart);
           return ResponseEntity.ok(tmp);
     }
+    //api set thong tin giao hàng
     @PutMapping("/api/order/setThongTinGiaoHang")
     public ResponseEntity<String> setThongTinGiaoHang(@RequestParam("idDonHang") int idOrder,@RequestParam("sdt") String sdt, @RequestParam("diaChiGiaoHang") String diaChiGiaoHang){
         String tmp = orderService.setThongTinGiaoHang(idOrder,sdt,diaChiGiaoHang);
         return ResponseEntity.ok(tmp);
+    }
+    //api set token zalopay
+    @PutMapping("/api/order/setToken")
+    public ResponseEntity<String> setToken(@RequestParam("idDonHang") int idOrder, @RequestParam("token") String token )
+    {
+        String tmp = orderService.setToken(idOrder,token);
+        return ResponseEntity.ok(tmp);
+    }
+
+    //set trạng thái đơn hàng
+    @PutMapping("/api/order/changeOrderStatus")
+    public ResponseEntity<String> setTrangThaiDonHang(@RequestParam("idDonHang") int idOrder, @RequestParam("codeStatus") Integer codeStatus )
+    {
+        String tmp = orderService.setTrangThaiDonHang(idOrder,codeStatus);
+        return ResponseEntity.ok(tmp);
+    }
+    //get chi tiết order
+    @GetMapping("/api/order/getChiTietOrder")
+    public ResponseEntity<ChiTietOrderDTO> getChiTietOrder(@RequestParam("idDonHang") int idOrder )
+    {
+        ChiTietOrderDTO chiTietOrderDTO = orderService.getChiTietOrder(idOrder);
+        return ResponseEntity.ok(chiTietOrderDTO);
     }
 }

@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.service;
 
+import com.example.appbanbanhv2.dto.ChiTietOrderDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.entity.ChiTietOrder;
 import com.example.appbanbanhv2.entity.Orders;
@@ -100,11 +101,10 @@ public class OrdersServiceImpl implements OrdersService {
             for (Cart i : dsCart) {
                 ChiTietOrder chiTietOrder = new ChiTietOrder();
                 int countRecordInChiTietOrder = (int) _chiTietOrderRepository.count();
-                if(countRecordInChiTietOrder == 0){
+                if (countRecordInChiTietOrder == 0) {
                     chiTietOrder.setId(1);
-                }
-                else{
-                    int theLastestChiTietOrderId = _chiTietOrderRepository.getTheLastestId()+1;
+                } else {
+                    int theLastestChiTietOrderId = _chiTietOrderRepository.getTheLastestId() + 1;
                     chiTietOrder.setId(theLastestChiTietOrderId);
                 }
                 chiTietOrder.setCartId(i.getId());
@@ -116,7 +116,8 @@ public class OrdersServiceImpl implements OrdersService {
             res = "successful";
         } catch (Exception e) {
             res = "error in create order";
-        } return res;
+        }
+        return res;
 
     }
 
@@ -140,6 +141,84 @@ public class OrdersServiceImpl implements OrdersService {
         }
 
         return message;
+    }
+
+    @Override
+    public String setToken(int idOrder, String token) {
+        String message = "";
+
+        Optional<Orders> orders = ordersRepository.findById((long) idOrder);
+        if (orders.isPresent()) {
+            Orders tmp = orders.get();
+            tmp.setMomoToken(token);
+            try {
+                ordersRepository.save(tmp);
+                message = "set token successful";
+            } catch (Exception e) {
+                message = "error in set token";
+            }
+        } else message = "not find orders";
+
+
+        return message;
+    }
+
+    @Override
+    public String setTrangThaiDonHang(int idOrder, Integer codeStatus) {
+        String message = "";
+
+        Optional<Orders> orders = ordersRepository.findById((long) idOrder);
+        if (orders.isPresent()) {
+            String status = "";
+            Orders tmp = orders.get();
+            switch (codeStatus) {
+                case 0 : status = "paid";
+                    break;
+
+                case 1:
+                    status =  "delivered";
+                    break;
+                case 2:
+                    status = "delivering";
+                    break;
+                case 3:
+                    status =  "pending";
+                    break;
+                case 4:
+                    status =   "cancel";
+                    break;
+                default:
+                    status = "created";
+            }
+            tmp.setTrangThaiDonHang(status);
+            try {
+                ordersRepository.save(tmp);
+                message = "set trangThaiDonHang successful";
+            } catch (Exception e) {
+                message = "error in set trangThaiDonHang ";
+            }
+        } else message = "not find orders";
+
+
+        return message;
+    }
+
+    @Override
+    public ChiTietOrderDTO getChiTietOrder(int idOrder) {
+        ChiTietOrderDTO chiTietOrderDTO = new ChiTietOrderDTO();
+        Optional<Orders> tmp = ordersRepository.findById((long) idOrder);
+        if(tmp.isPresent())
+        {
+            Orders orders = tmp.get();
+            List<ChiTietOrder> chiTietOrderList = _chiTietOrderRepository.findByOrdersId(orders.getId());
+            chiTietOrderDTO.setOrders(orders);
+            chiTietOrderDTO.setChiTietOrderList(chiTietOrderList);
+
+        }
+        return chiTietOrderDTO;
+
+
+
     }
 
 }
