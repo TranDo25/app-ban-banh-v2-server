@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.service;
 
+import com.example.appbanbanhv2.dto.ChiTietOrderDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.entity.ChiTietOrder;
 import com.example.appbanbanhv2.entity.Orders;
@@ -200,6 +201,24 @@ public class OrdersServiceImpl implements OrdersService {
 
 
         return message;
+    }
+
+    @Override
+    public ChiTietOrderDTO getChiTietOrder(int idOrder) {
+        ChiTietOrderDTO chiTietOrderDTO = new ChiTietOrderDTO();
+        Optional<Orders> tmp = ordersRepository.findById((long) idOrder);
+        if(tmp.isPresent())
+        {
+            Orders orders = tmp.get();
+            List<ChiTietOrder> chiTietOrderList = _chiTietOrderRepository.findByOrdersId(orders.getId());
+            chiTietOrderDTO.setOrders(orders);
+            chiTietOrderDTO.setChiTietOrderList(chiTietOrderList);
+
+        }
+        return chiTietOrderDTO;
+
+
+
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.service;
 
+import com.example.appbanbanhv2.dto.ChiTietOrderDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.entity.Orders;
 
@@ -37,4 +38,6 @@ public interface OrdersService {
     String setToken(int idOrder, String token);
 
     String setTrangThaiDonHang(int idOrder, Integer codeStatus);
+
+    ChiTietOrderDTO getChiTietOrder(int idOrder);
 }

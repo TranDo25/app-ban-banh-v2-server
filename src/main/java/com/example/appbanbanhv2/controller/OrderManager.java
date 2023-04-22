@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.controller;
 
+import com.example.appbanbanhv2.dto.ChiTietOrderDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,5 +36,11 @@ public class OrderManager {
     {
         String tmp = orderService.setTrangThaiDonHang(idOrder,codeStatus);
         return ResponseEntity.ok(tmp);
+    }
+    @GetMapping("/api/order/getChiTietOrder")
+    public ResponseEntity<ChiTietOrderDTO> getChiTietOrder(@RequestParam("idDonHang") int idOrder )
+    {
+        ChiTietOrderDTO chiTietOrderDTO = orderService.getChiTietOrder(idOrder);
+        return ResponseEntity.ok(chiTietOrderDTO);
     }
 }

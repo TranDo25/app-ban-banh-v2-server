@@ -1,31 +1,19 @@
 package com.example.appbanbanhv2.dto;
 
+import com.example.appbanbanhv2.entity.ChiTietOrder;
+import com.example.appbanbanhv2.entity.Orders;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class ChiTietOrderDTO {
-    private Integer id;
-    private Integer ordersId;
-    private Integer cartId;
+    private Orders orders;
 
-    public Integer getId() {
-        return this.id;
-    }
+    private List<ChiTietOrder> chiTietOrderList;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getOrdersId() {
-        return this.ordersId;
-    }
-
-    public void setOrdersId(Integer ordersId) {
-        this.ordersId = ordersId;
-    }
-
-    public Integer getCartId() {
-        return this.cartId;
-    }
-
-    public void setCartId(Integer cartId) {
-        this.cartId = cartId;
-    }
 }
