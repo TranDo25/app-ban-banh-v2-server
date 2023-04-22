@@ -18,17 +18,20 @@ public class OrderManager {
        String tmp = orderService.createOrder(dsCart);
           return ResponseEntity.ok(tmp);
     }
+    //api set thong tin giao hàng
     @PutMapping("/api/order/setThongTinGiaoHang")
     public ResponseEntity<String> setThongTinGiaoHang(@RequestParam("idDonHang") int idOrder,@RequestParam("sdt") String sdt, @RequestParam("diaChiGiaoHang") String diaChiGiaoHang){
         String tmp = orderService.setThongTinGiaoHang(idOrder,sdt,diaChiGiaoHang);
         return ResponseEntity.ok(tmp);
     }
+    //api set token zalopay
     @PutMapping("/api/order/setToken")
     public ResponseEntity<String> setToken(@RequestParam("idDonHang") int idOrder, @RequestParam("token") String token )
     {
         String tmp = orderService.setToken(idOrder,token);
         return ResponseEntity.ok(tmp);
     }
+
     //set trạng thái đơn hàng
     @PutMapping("/api/order/changeOrderStatus")
     public ResponseEntity<String> setTrangThaiDonHang(@RequestParam("idDonHang") int idOrder, @RequestParam("codeStatus") Integer codeStatus )
