@@ -1,5 +1,8 @@
 package com.example.appbanbanhv2.rest;
 
+import com.example.appbanbanhv2.dto.MessageDTO;
+import com.example.appbanbanhv2.dto.ProductAddToCartDTO;
+import com.example.appbanbanhv2.dto.ProductWithImageWithNumberDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.entity.Users;
 import com.example.appbanbanhv2.modelfrontend.GioHangModel;
@@ -17,53 +20,77 @@ import java.util.Optional;
 
 public class CartController {
 
-	@Autowired
-	private CartService cartService;
+    @Autowired
+    private CartService cartService;
 //	@Autowired
 //	private UsersRepository usersRepository;
 
-	@PostMapping("/cart")
-	public Cart save(@RequestBody Cart cart) {
-		return cartService.save(cart);
-	}
+    @PostMapping("/cart")
+    public Cart save(@RequestBody Cart cart) {
+        return cartService.save(cart);
+    }
 
-	// Tuấn anh viết
-	// api thêm mới sản phẩm vào giỏ hàng
+    // Tuấn anh viết
+    // api thêm mới sản phẩm vào giỏ hàng
 
 
-	@GetMapping("/cart/{id}")
-	public Optional<Cart> getById(@PathVariable(value = "id") Long id) {
-		return cartService.find(id);
-	}
-//thay đổi số lượng của cart item trong giỏ hàng
-	@GetMapping("/cart/changeNumberOfItem")
-	public String changeNumberOfItem(@RequestParam("cartId") int cartId, @RequestParam("soluong") int soluong) {
-		String res = cartService.changeNumberOfItem(cartId, soluong);
-		return res;
-	}
-//api get giở hàng theo id user
-	@GetMapping("/cart/getCartByIdUser")
-	public GioHangModel getCartByIdUser(@RequestParam("iduser") String iduser) {
-		return cartService.getGioHangByIdUser(iduser);
-	}
+    @GetMapping("/cart/{id}")
+    public Optional<Cart> getById(@PathVariable(value = "id") Long id) {
+        return cartService.find(id);
+    }
 
-	@GetMapping("/cart")
-	public List<Cart> getAll() {
-		return cartService.findAll();
-	}
+    //thay đổi số lượng của cart item trong giỏ hàng
+    @GetMapping("/cart/changeNumberOfItem")
+    public ResponseEntity<MessageDTO> changeNumberOfItem(@RequestParam("cartId") int cartId, @RequestParam("soluong") int soluong) {
+        String res = cartService.changeNumberOfItem(cartId, soluong);
+        MessageDTO dto = new MessageDTO(res);
 
-	@DeleteMapping("/cart/{id}")
-	public void deleteById(@PathVariable(value = "id") Long id) {
-		cartService.delete(id);
-	}
+        return ResponseEntity.ok(dto);
+    }
 
-	@DeleteMapping("/cart")
-	public void deleteAll() {
-		cartService.deleteAll();
-	}
+    //api get giỏ hàng theo id user
+    @GetMapping("/cart/getCartByIdUser")
+    public ResponseEntity<List<ProductWithImageWithNumberDTO>> getCartByIdUser(@RequestParam("iduser") String iduser) {
+        List<ProductWithImageWithNumberDTO> res = cartService.getGioHangByIdUser(iduser);
+        return ResponseEntity.ok(res);
+    }
+//api add sản phẩm vào giỏ hàng
+    @PostMapping("/cart/addProductToCart")
+    public ResponseEntity<MessageDTO> addProductToCart(@RequestBody ProductAddToCartDTO productAddToCartDTO) {
+        MessageDTO res = new MessageDTO();
+		String tmp = cartService.addProductToCart(
+                productAddToCartDTO.getIdUser(),
+                productAddToCartDTO.getIdProduct(),
+                productAddToCartDTO.getSoLuong()
+        );
+        res.setMessage(tmp);
+		return ResponseEntity.ok(res);
+    }
 
-	@GetMapping("/cart/count")
-	public long count() {
-		return cartService.count();
-	}
+    @GetMapping("/cart")
+    public List<Cart> getAll() {
+        return cartService.findAll();
+    }
+
+    @DeleteMapping("/cart")
+    public String deleteById(@RequestParam("id") Long id) {
+        cartService.delete(id);
+        return "xoa gio hang thanh cong";
+    }
+    @GetMapping("/cart/getListCartByIdUserNew")
+    public ResponseEntity<List<Cart>> getListCartByIdUserNew(@RequestParam("idUser") String idUser){
+        List<Cart> res = cartService.getListCartByIdUserNew(idUser);
+        return ResponseEntity.ok(res);
+
+    }
+
+//	@DeleteMapping("/cart")
+//	public void deleteAll() {
+//		cartService.deleteAll();
+//	}
+
+    @GetMapping("/cart/count")
+    public long count() {
+        return cartService.count();
+    }
 }

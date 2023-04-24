@@ -41,4 +41,6 @@ public interface ProductsService {
 	List<ProductWithImageDTO> findAllProductByCategory(int id);
 
 	ProductWithImageDTO getProductWithImageById(int id);
+
+    List<ProductWithImageDTO> getTenProductWithImageHasHighestVote();
 }

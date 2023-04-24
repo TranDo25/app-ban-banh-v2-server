@@ -7,8 +7,10 @@ import com.example.appbanbanhv2.entity.Products;
 import com.example.appbanbanhv2.service.CategoryService;
 import com.example.appbanbanhv2.service.ProductsService;
 import com.example.appbanbanhv2.service.StorageService;
+import com.example.appbanbanhv2.util.ServerConfig;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +19,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class ProductManager {
@@ -43,12 +45,12 @@ public class ProductManager {
 	}
 //api này lấy toàn bộ product
 	@GetMapping("/api/admin/products")
-	public ResponseEntity<List<ProductWithImageDTO>> apiListProduct(Model model) {
+	public ResponseEntity<List<ProductWithImageDTO>> apiListProduct() {
 //        model.addAttribute("products", productsService.findAll());
 		List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
 
 		for (ProductWithImageDTO i : tmp) {
-			String pathUrl = "localhost:8080/api/admin/product/image/";
+			String pathUrl = ServerConfig.SERVER_IP_V4 + "api/admin/product/image/";
 			i.setImageName(pathUrl + i.getImageName());
 		}
 //                model.addAttribute("products", tmp);
@@ -61,7 +63,7 @@ public class ProductManager {
 		List<ProductWithImageDTO> tmp = productsService.findAllProductByCategory(id);
 
 		for (ProductWithImageDTO i : tmp) {
-			String pathUrl = "localhost:8080/api/admin/product/image/";
+			String pathUrl = ServerConfig.SERVER_IP_V4 + "api/admin/product/image/";
 			i.setImageName(pathUrl + i.getImageName());
 		}
 //          model.addAttribute("products", tmp);
@@ -81,7 +83,7 @@ public class ProductManager {
 			@RequestParam("searchString") String searchString) {
 		List<ProductWithImageDTO> tmp = productsService.searchProductByName(searchString);
 		for (ProductWithImageDTO i : tmp) {
-			String pathUrl = "localhost:8080/api/admin/product/image/";
+			String pathUrl = ServerConfig.SERVER_IP_V4 +"api/admin/product/image/";
 			i.setImageName(pathUrl + i.getImageName());
 		}
 		return ResponseEntity.ok(tmp);
@@ -131,7 +133,6 @@ public class ProductManager {
 	public ResponseEntity<?> downloadImage(@PathVariable String fileName) {
 		byte[] imageData = service.downloadImage(fileName);
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
-
 	}
 
 	@PostMapping("/api/admin/product/image//fileSystem")
@@ -146,4 +147,19 @@ public class ProductManager {
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
 
 	}
+	//lấy ra 10 sản phẩm có lượt vote cao nhất
+	@GetMapping("/api/product/getTenProductWithHighestVote")
+	public ResponseEntity<List<ProductWithImageDTO>> getTenProductWithHighestVote(){
+		List<ProductWithImageDTO> res = productsService.getTenProductWithImageHasHighestVote();
+		for(ProductWithImageDTO i:res){
+			String pathUrl = ServerConfig.SERVER_IP_V4 +"api/admin/product/image/";
+			i.setImageName(pathUrl + i.getImageName());
+		}
+		return ResponseEntity.ok(res);
+	}
+	//lấy ra sản phẩm kèm ảnh theo id của product
+//	@GetMapping ResponseEntity<ProductWithImageDTO> getProductWithImageById(@RequestParam("idProduct") int idProduct){
+//		ProductWithImageDTO res = productsService.getProductWithImageById(idProduct);
+//		return ResponseEntity.ok(res);
+//	}
 }

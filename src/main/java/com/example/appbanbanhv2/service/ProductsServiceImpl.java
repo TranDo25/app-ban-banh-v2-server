@@ -68,17 +68,20 @@ public class ProductsServiceImpl implements ProductsService {
     public long count() {
         return productsRepository.count();
     }
-//service này lấy ra 10 sản phẩm 
+
+    //service này lấy ra 10 sản phẩm
     @Override
     public List<Products> find10product() {
         return productsRepository.find10product();
     }
-//service này lấy ra id của sản phẩm mới được thêm vào
+
+    //service này lấy ra id của sản phẩm mới được thêm vào
     @Override
     public long getNewestProductId() {
         return productsRepository.getNewestProductId();
     }
-//service này lấy ra toàn bộ danh sách sản phẩm
+
+    //service này lấy ra toàn bộ danh sách sản phẩm
     @Override
     public List<ProductWithImageDTO> findAllProductAndItsImage() {
         List<Products> listProduct = productsRepository.findAll();
@@ -93,46 +96,63 @@ public class ProductsServiceImpl implements ProductsService {
         }
         return res;
     }
-    
-//Service này lấy ra danh sách sản phẩm tìm kiếm theo tên
-	public List<ProductWithImageDTO> searchProductByName(String searchString) {
-		 List<Products> listProduct = productsRepository.searchAllWithSearchString(searchString);
-		  List<ProductWithImageDTO> res = new ArrayList<>();
-		  for (Products i : listProduct) {
-	            int idProduct = i.getId();
-	            ProductWithImageDTO tmp = new ProductWithImageDTO();
-	            BeanUtils.copyProperties(i, tmp);
-	            tmp.setImageName(storageRepository.getImageNameByIdProduct(idProduct));
-	            res.add(tmp);
 
-	        }
-	        return res;
-		
-	}
-//service này lấy ra danh sách sản phẩm theo id danh mục
-	@Override
-	public List<ProductWithImageDTO> findAllProductByCategory(int id) {
-		 List<Products> listProduct = productsRepository.getAllProductByIdCategory(id);
-		 List<ProductWithImageDTO> res = new ArrayList<>();
-		  for (Products i : listProduct) {
-	            int idProduct = i.getId();
-	            ProductWithImageDTO tmp = new ProductWithImageDTO();
-	            BeanUtils.copyProperties(i, tmp);
-	            tmp.setImageName(storageRepository.getImageNameByIdProduct(idProduct));
-	            res.add(tmp);
+    //Service này lấy ra danh sách sản phẩm tìm kiếm theo tên
+    public List<ProductWithImageDTO> searchProductByName(String searchString) {
+        List<Products> listProduct = productsRepository.searchAllWithSearchString(searchString);
+        List<ProductWithImageDTO> res = new ArrayList<>();
+        for (Products i : listProduct) {
+            int idProduct = i.getId();
+            ProductWithImageDTO tmp = new ProductWithImageDTO();
+            BeanUtils.copyProperties(i, tmp);
+            tmp.setImageName(storageRepository.getImageNameByIdProduct(idProduct));
+            res.add(tmp);
 
-	        }
-	        return res;
-		
-	}
-//service này lấy ra product với ảnh theo id
-	@Override
-	public ProductWithImageDTO getProductWithImageById(int id) {
-		Products tmp = productsRepository.findById(id).get();
-		ProductWithImageDTO res = new ProductWithImageDTO();
-		 BeanUtils.copyProperties(tmp, res);
-		 res.setImageName(storageRepository.getImageNameByIdProduct(res.getId()));
-		return res;
-	}
+        }
+        return res;
+
+    }
+
+    //service này lấy ra danh sách sản phẩm theo id danh mục
+    @Override
+    public List<ProductWithImageDTO> findAllProductByCategory(int id) {
+        List<Products> listProduct = productsRepository.getAllProductByIdCategory(id);
+        List<ProductWithImageDTO> res = new ArrayList<>();
+        for (Products i : listProduct) {
+            int idProduct = i.getId();
+            ProductWithImageDTO tmp = new ProductWithImageDTO();
+            BeanUtils.copyProperties(i, tmp);
+            tmp.setImageName(storageRepository.getImageNameByIdProduct(idProduct));
+            res.add(tmp);
+
+        }
+        return res;
+
+    }
+
+    //service này lấy ra product với ảnh theo id
+    @Override
+    public ProductWithImageDTO getProductWithImageById(int id) {
+        Products tmp = productsRepository.findById(id).get();
+        ProductWithImageDTO res = new ProductWithImageDTO();
+        BeanUtils.copyProperties(tmp, res);
+        res.setImageName(storageRepository.getImageNameByIdProduct(res.getId()));
+        return res;
+    }
+
+    @Override
+    public List<ProductWithImageDTO> getTenProductWithImageHasHighestVote() {
+        List<Products> listTmp = productsRepository.find10product();
+        List<ProductWithImageDTO> listRes = new ArrayList<>();
+        for (Products i : listTmp) {
+            ProductWithImageDTO tmp = new ProductWithImageDTO();
+            BeanUtils.copyProperties(i, tmp);
+            int idProduct = i.getId();
+            tmp.setImageName(storageRepository.getImageNameByIdProduct(idProduct));
+            listRes.add(tmp);
+
+        }
+        return listRes;
+    }
 
 }

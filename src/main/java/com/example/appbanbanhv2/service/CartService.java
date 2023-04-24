@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.service;
 
+import com.example.appbanbanhv2.dto.ProductWithImageWithNumberDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.modelfrontend.GioHangModel;
 
@@ -30,10 +31,13 @@ public interface CartService {
 
 	long count();
 
-	GioHangModel getGioHangByIdUser(String idUser);
+	List<ProductWithImageWithNumberDTO> getGioHangByIdUser(String idUser);
 
 	Cart findById(int cartId);
 
 	String changeNumberOfItem(int cartId, int soluong);
 
+	String addProductToCart(String iduser, int idProduct, int soluong);
+
+    List<Cart> getListCartByIdUserNew(String idUser);
 }
