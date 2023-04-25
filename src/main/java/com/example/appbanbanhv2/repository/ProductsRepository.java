@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface ProductsRepository extends JpaRepository<Products, Integer> {
 
-    @Query( value = "SELECT * FROM products ORDER BY so_vote DESC LIMIT 3", nativeQuery = true)
+    @Query( value = "SELECT * FROM products ORDER BY so_vote DESC LIMIT 10", nativeQuery = true)
     List<Products> find10product();
     @Query(value = "SELECT id FROM products ORDER BY id DESC LIMIT 1", nativeQuery = true)
     long getNewestProductId();
