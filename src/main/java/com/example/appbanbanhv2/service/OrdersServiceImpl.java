@@ -1,6 +1,7 @@
 package com.example.appbanbanhv2.service;
 
 import com.example.appbanbanhv2.dto.ChiTietOrderDTO;
+import com.example.appbanbanhv2.dto.MessageDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.entity.ChiTietOrder;
 import com.example.appbanbanhv2.entity.Orders;
@@ -10,6 +11,7 @@ import com.example.appbanbanhv2.repository.ChiTietOrderRepository;
 import com.example.appbanbanhv2.repository.OrdersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -151,7 +153,6 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public String setToken(int idOrder, String token) {
         String message = "";
-
         Optional<Orders> orders = ordersRepository.findById((long) idOrder);
         if (orders.isPresent()) {
             Orders tmp = orders.get();
@@ -223,6 +224,18 @@ public class OrdersServiceImpl implements OrdersService {
         return chiTietOrderDTO;
 
 
+    }
+
+    @Override
+    public MessageDTO getTheNewestOrderId() {
+        int theNewestOrderId = ordersRepository.getTheLastestId();
+        MessageDTO dto = new MessageDTO(String.valueOf(theNewestOrderId));
+        return dto;
+    }
+
+    @Override
+    public List<Orders> getOrderByIdUser(String idUser) {
+        return ordersRepository.getOrderByIdUser(idUser);
     }
 
 }

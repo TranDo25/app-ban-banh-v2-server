@@ -78,7 +78,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public List<ProductWithImageWithNumberDTO> getGioHangByIdUser(String idUser) {
-        List<Cart> dsMatHangTrongGio = cartRepository.findAllByUserId(idUser);
+        List<Cart> dsMatHangTrongGio = cartRepository.findAllNotBuyByUserId(idUser);
         List<ProductWithImageWithNumberDTO> res = new ArrayList<>();
         for (Cart i : dsMatHangTrongGio) {
             Products tmp = proRepo.findById(i.getProductsId()).get();
@@ -129,7 +129,7 @@ public class CartServiceImpl implements CartService {
         tmp.setSoluong(soluong);
         tmp.setProductsId(idProduct);
         tmp.setUsersId(iduser);
-        tmp.setIsChecked(true);
+        tmp.setIsChecked(false);
         String message = "";
         try{
             cartRepository.save(tmp);

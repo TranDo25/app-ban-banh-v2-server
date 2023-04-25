@@ -6,8 +6,10 @@ import com.example.appbanbanhv2.dto.ProductWithImageWithNumberDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.entity.Users;
 import com.example.appbanbanhv2.modelfrontend.GioHangModel;
+import com.example.appbanbanhv2.repository.OrdersRepository;
 import com.example.appbanbanhv2.repository.UsersRepository;
 import com.example.appbanbanhv2.service.CartService;
+import com.example.appbanbanhv2.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,8 +24,7 @@ public class CartController {
 
     @Autowired
     private CartService cartService;
-//	@Autowired
-//	private UsersRepository usersRepository;
+
 
     @PostMapping("/cart")
     public Cart save(@RequestBody Cart cart) {
@@ -54,17 +55,18 @@ public class CartController {
         List<ProductWithImageWithNumberDTO> res = cartService.getGioHangByIdUser(iduser);
         return ResponseEntity.ok(res);
     }
-//api add sản phẩm vào giỏ hàng
+
+    //api add sản phẩm vào giỏ hàng
     @PostMapping("/cart/addProductToCart")
     public ResponseEntity<MessageDTO> addProductToCart(@RequestBody ProductAddToCartDTO productAddToCartDTO) {
         MessageDTO res = new MessageDTO();
-		String tmp = cartService.addProductToCart(
+        String tmp = cartService.addProductToCart(
                 productAddToCartDTO.getIdUser(),
                 productAddToCartDTO.getIdProduct(),
                 productAddToCartDTO.getSoLuong()
         );
         res.setMessage(tmp);
-		return ResponseEntity.ok(res);
+        return ResponseEntity.ok(res);
     }
 
     @GetMapping("/cart")
@@ -77,8 +79,9 @@ public class CartController {
         cartService.delete(id);
         return "xoa gio hang thanh cong";
     }
+
     @GetMapping("/cart/getListCartByIdUserNew")
-    public ResponseEntity<List<Cart>> getListCartByIdUserNew(@RequestParam("idUser") String idUser){
+    public ResponseEntity<List<Cart>> getListCartByIdUserNew(@RequestParam("idUser") String idUser) {
         List<Cart> res = cartService.getListCartByIdUserNew(idUser);
         return ResponseEntity.ok(res);
 
@@ -92,5 +95,19 @@ public class CartController {
     @GetMapping("/cart/count")
     public long count() {
         return cartService.count();
+    }
+
+    //xóa sản phẩm trong giỏ hàng
+    @GetMapping("/cart/deleteCartItem")
+    public ResponseEntity<MessageDTO> deleteCartItemById(@RequestParam("idCart") int idCart) {
+        MessageDTO dto;
+        try {
+            cartService.delete((long) idCart);
+            dto = new MessageDTO("delete succesfully");
+        } catch (Exception e) {
+            dto = new MessageDTO("delete error");
+
+        }
+        return ResponseEntity.ok(dto);
     }
 }
