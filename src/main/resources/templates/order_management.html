@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title>Product Management System</title>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+	<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+		<!-- 		Brand -->
+		<a class="navbar-brand" th:href="@{/admin/products}">Product
+			Management System</a>
+
+		<!-- 		Toggler/collapsibe Button -->
+		<button class="navbar-toggler" type="button" data-toggle="collapse"
+			data-target="#collapsibleNavbar">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- Navbar links -->
+		<div class="collapse navbar-collapse" id="collapsibleNavbar">
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/admin/order/orderManagement}">Quản lý đơn hàng</a></li>
+
+			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link"
+					th:href="@{/admin/products}">Quản lý sản phẩm</a></li>
+
+			</ul>
+			<ul class="navbar-nav">
+				<li class="nav-item"><a class="nav-link" th:href="@{/admin/}">Quản
+						lý danh mục sản phẩm</a></li>
+
+			</ul>
+		</div>
+	</nav>
+
+	<div class="container">
+		<div class="row">
+			<h1>Quản lý đơn hàng</h1>
+		</div>
+
+
+		<form method="POST" th:action="@{/admin/order/saveListStatus}"
+			th:object="${orderWrapperDTO}">
+			<div class="row">
+				<div class="col-lg-3">
+					<button type="submit" class="btn btn-primary btn-sm mb-3">
+						Cập nhật trạng thái đơn hàng</button>
+				</div>
+				<div class="col-lg-3">
+					<p class="text-danger" id="messageNofity" th:text=${message}></p>
+				</div>
+			</div>
+			<table class="table table-striped table-bordered">
+				<thead class="table-dark">
+					<tr>
+
+						<th>Số thứ tự</th>
+						<th>Ngày tạo đơn</th>
+						<th>Trạng thái đơn hàng</th>
+						<th>Số điện thoại</th>
+						<th>Tổng tiền</th>
+						<th>Địa chỉ giao hàng</th>
+						<th>Zalopay token</th>
+
+					</tr>
+				</thead>
+
+				<tbody>
+					<tr th:each="order, index: *{listOrder}">
+					
+						<input type="text" th:field="*{listOrder[__${index.index}__].id}" hidden/>
+					
+						<td th:text=${index.count}></td>
+
+						<td><input
+							th:field="*{listOrder[__${index.index}__].ngayTaoDon}"
+							type="date" readonly /></td>
+						<td><select
+							th:field="*{listOrder[__${index.index}__].trangThaiDonHang}">
+								<option th:each="i : ${listTrangThaiGiaoHang}" th:value="${i}"
+									th:text="${i}" th:selected="${i}==${order.trangThaiDonHang}"></option>
+						</select></td>
+						<td 
+							>
+							<input type="text" 	th:field="*{listOrder[__${index.index}__].sdt}"/>
+							</td>
+						<td 
+							>
+							<input type="text" readonly	th:field="*{listOrder[__${index.index}__].tongtien}"/>
+							</td>
+						<td 
+							>
+							<input type="text" 	th:field="*{listOrder[__${index.index}__].diachigiaohang}"/>
+							</td>
+						<td 
+							>
+							<input type="text" readonly	th:field="*{listOrder[__${index.index}__].momoToken}"/>
+							</td>
+
+					</tr>
+				</tbody>
+
+
+
+			</table>
+		</form>
+	</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E=" crossorigin="anonymous"></script>
+<script>
+$(document).ready(function() {
+	  setTimeout(function() {
+	    $('#messageNofity').remove();
+	  }, 3000);
+	});
+
+</script>
+</html>
+
+
+

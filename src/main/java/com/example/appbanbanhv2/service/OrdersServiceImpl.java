@@ -1,14 +1,17 @@
 package com.example.appbanbanhv2.service;
 
 import com.example.appbanbanhv2.dto.ChiTietOrderDTO;
+import com.example.appbanbanhv2.dto.MessageDTO;
 import com.example.appbanbanhv2.entity.Cart;
 import com.example.appbanbanhv2.entity.ChiTietOrder;
 import com.example.appbanbanhv2.entity.Orders;
 import com.example.appbanbanhv2.entity.Products;
+import com.example.appbanbanhv2.repository.CartRepository;
 import com.example.appbanbanhv2.repository.ChiTietOrderRepository;
 import com.example.appbanbanhv2.repository.OrdersRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +30,8 @@ public class OrdersServiceImpl implements OrdersService {
     private OrdersRepository ordersRepository;
     @Autowired
     private ChiTietOrderRepository _chiTietOrderRepository;
+    @Autowired
+    private CartRepository _cartRepository;
 
     @Override
     public Orders save(Orders orders) {
@@ -99,6 +104,8 @@ public class OrdersServiceImpl implements OrdersService {
         try {
             ordersRepository.save(order);
             for (Cart i : dsCart) {
+                i.setIsChecked(true);
+                _cartRepository.save(i);
                 ChiTietOrder chiTietOrder = new ChiTietOrder();
                 int countRecordInChiTietOrder = (int) _chiTietOrderRepository.count();
                 if (countRecordInChiTietOrder == 0) {
@@ -113,9 +120,9 @@ public class OrdersServiceImpl implements OrdersService {
             }
 
 
-            res = "successful";
+            res = String.valueOf(ordersRepository.getTheLastestId());
         } catch (Exception e) {
-            res = "error in create order";
+            res = "error";
         }
         return res;
 
@@ -146,7 +153,6 @@ public class OrdersServiceImpl implements OrdersService {
     @Override
     public String setToken(int idOrder, String token) {
         String message = "";
-
         Optional<Orders> orders = ordersRepository.findById((long) idOrder);
         if (orders.isPresent()) {
             Orders tmp = orders.get();
@@ -172,20 +178,21 @@ public class OrdersServiceImpl implements OrdersService {
             String status = "";
             Orders tmp = orders.get();
             switch (codeStatus) {
-                case 0 : status = "paid";
+                case 0:
+                    status = "paid";
                     break;
 
                 case 1:
-                    status =  "delivered";
+                    status = "delivered";
                     break;
                 case 2:
                     status = "delivering";
                     break;
                 case 3:
-                    status =  "pending";
+                    status = "pending";
                     break;
                 case 4:
-                    status =   "cancel";
+                    status = "cancel";
                     break;
                 default:
                     status = "created";
@@ -207,8 +214,7 @@ public class OrdersServiceImpl implements OrdersService {
     public ChiTietOrderDTO getChiTietOrder(int idOrder) {
         ChiTietOrderDTO chiTietOrderDTO = new ChiTietOrderDTO();
         Optional<Orders> tmp = ordersRepository.findById((long) idOrder);
-        if(tmp.isPresent())
-        {
+        if (tmp.isPresent()) {
             Orders orders = tmp.get();
             List<ChiTietOrder> chiTietOrderList = _chiTietOrderRepository.findByOrdersId(orders.getId());
             chiTietOrderDTO.setOrders(orders);
@@ -218,7 +224,18 @@ public class OrdersServiceImpl implements OrdersService {
         return chiTietOrderDTO;
 
 
+    }
 
+    @Override
+    public MessageDTO getTheNewestOrderId() {
+        int theNewestOrderId = ordersRepository.getTheLastestId();
+        MessageDTO dto = new MessageDTO(String.valueOf(theNewestOrderId));
+        return dto;
+    }
+
+    @Override
+    public List<Orders> getOrderByIdUser(String idUser) {
+        return ordersRepository.getOrderByIdUser(idUser);
     }
 
 }
