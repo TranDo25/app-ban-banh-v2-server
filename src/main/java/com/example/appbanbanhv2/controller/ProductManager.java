@@ -153,5 +153,62 @@ public class ProductManager {
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
 
 	}
+	//xóa product theo id
+	@GetMapping("/admin/product/{id}")
+	public String deleteStudent(@PathVariable int id) {
+		productsService.delete(id);
+		return "redirect:/admin/products";
+	}
 
+
+	//update anh
+	@GetMapping("/admin/product/edit/{id}")
+	public String editStudentForm(@PathVariable int id, Model model) {
+		Products tmp =productsService.find(id).get();
+		ProductsDTO productsDTO = new ProductsDTO();
+		ProductWithImageDTO productWithImageDTO = productsService.getProductWithImageById(id);
+		BeanUtils.copyProperties(tmp, productsDTO);
+		List<Category> listCategory = categoryService.findAll();
+		model.addAttribute("listCategory", listCategory);
+		String imageName = productWithImageDTO.getImageName();
+		model.addAttribute("imageName", imageName);
+		model.addAttribute("product", productsDTO);
+		return "edit_product";
+	}
+
+
+	@PostMapping("admin/product/{id}")
+	public String updateProDuct(@PathVariable int id,@ModelAttribute("product") ProductsDTO productsDTO) throws IOException
+			{	Products tmp = productsService.find(id).get();
+				BeanUtils.copyProperties(productsDTO,tmp );
+
+				System.out.println(tmp);
+				productsService.save(tmp);
+				MultipartFile file = productsDTO.getImage();
+
+				Integer idImage	=service.findIdImageByIdProduct(id);
+				if(!file.isEmpty()) {
+					repository.deleteById(((long)idImage));
+
+					service.uploadImage(file, (long) id);
+				}
+				return ("redirect:/admin/products");
+			}
+		
+
+	//lấy ra 10 sản phẩm có lượt vote cao nhất
+	@GetMapping("/api/product/getTenProductWithHighestVote")
+	public ResponseEntity<List<ProductWithImageDTO>> getTenProductWithHighestVote(){
+		List<ProductWithImageDTO> res = productsService.getTenProductWithImageHasHighestVote();
+		for(ProductWithImageDTO i:res){
+			String pathUrl = ServerConfig.SERVER_IP_V4 +"api/admin/product/image/";
+			i.setImageName(pathUrl + i.getImageName());
+		}
+		return ResponseEntity.ok(res);
+	}
+	//lấy ra sản phẩm kèm ảnh theo id của product
+//	@GetMapping ResponseEntity<ProductWithImageDTO> getProductWithImageById(@RequestParam("idProduct") int idProduct){
+//		ProductWithImageDTO res = productsService.getProductWithImageById(idProduct);
+//		return ResponseEntity.ok(res);
+//	}
 }
