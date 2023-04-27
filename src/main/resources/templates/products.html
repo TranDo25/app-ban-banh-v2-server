@@ -81,10 +81,10 @@
             <td th:text = "${product.categoryId}"></td>
             <td th:text = "${product.giamGia}"></td>
             <td>
-                <a th:href = "@{/products/edit/{id}(id=${product.id})}"
+                <a th:href = "@{/admin/product/edit/{id}(id=${product.id})}" 
                    class = "btn btn-primary">Update</a>
 
-                <a th:href = "@{/products/{id}(id=${product.id})}"
+                <a th:href = "@{/admin/product/{id}(id=${product.id})}"
                    class = "btn btn-danger">Delete</a>
 
             </td>

@@ -4,6 +4,7 @@ import com.example.appbanbanhv2.dto.ProductWithImageDTO;
 import com.example.appbanbanhv2.dto.ProductsDTO;
 import com.example.appbanbanhv2.entity.Category;
 import com.example.appbanbanhv2.entity.Products;
+import com.example.appbanbanhv2.repository.StorageRepository;
 import com.example.appbanbanhv2.service.CategoryService;
 import com.example.appbanbanhv2.service.ProductsService;
 import com.example.appbanbanhv2.service.StorageService;
@@ -24,6 +25,11 @@ import java.util.Optional;
 
 @Controller
 public class ProductManager {
+
+	
+    @Autowired
+    private StorageRepository repository;
+
 	@Autowired
 	private ProductsService productsService;
 	@Autowired
@@ -147,19 +153,5 @@ public class ProductManager {
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
 
 	}
-	//lấy ra 10 sản phẩm có lượt vote cao nhất
-	@GetMapping("/api/product/getTenProductWithHighestVote")
-	public ResponseEntity<List<ProductWithImageDTO>> getTenProductWithHighestVote(){
-		List<ProductWithImageDTO> res = productsService.getTenProductWithImageHasHighestVote();
-		for(ProductWithImageDTO i:res){
-			String pathUrl = ServerConfig.SERVER_IP_V4 +"api/admin/product/image/";
-			i.setImageName(pathUrl + i.getImageName());
-		}
-		return ResponseEntity.ok(res);
-	}
-	//lấy ra sản phẩm kèm ảnh theo id của product
-//	@GetMapping ResponseEntity<ProductWithImageDTO> getProductWithImageById(@RequestParam("idProduct") int idProduct){
-//		ProductWithImageDTO res = productsService.getProductWithImageById(idProduct);
-//		return ResponseEntity.ok(res);
-//	}
+
 }
