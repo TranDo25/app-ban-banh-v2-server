@@ -13,4 +13,7 @@ public interface StorageRepository extends JpaRepository<ImageData, Long> {
     String getImageNameByIdProduct(long id);
 
     Optional<ImageData> findByName(String fileName);
+
+    @Query (value= "SELECT id from image_data where image_data.products_id = ?1", nativeQuery = true)
+    Integer findIdImagebyIdProduct(Integer id);
 }

@@ -40,7 +40,7 @@ public class StorageService {
 
     public String uploadImage(MultipartFile file, Long idProduct) throws IOException {
         ImageData imageDataNewest = new ImageData(0L,
-                file.getOriginalFilename(),
+                idProduct.toString(),
                 file.getContentType(),
                 idProduct,
                 ImageUtils.compressImage(file.getBytes())
@@ -90,4 +90,7 @@ public class StorageService {
     }
 
 
+    public Integer findIdImageByIdProduct(int id) {
+       return repository.findIdImagebyIdProduct(id);
+    }
 }

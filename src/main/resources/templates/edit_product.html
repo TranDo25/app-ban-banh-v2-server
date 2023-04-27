@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Product Management System</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-md bg-dark navbar-dark">
+    <!-- Brand -->
+    <a class="navbar-brand" th:href="@{/admin/products}">Product Management System</a>
+
+    <!-- Toggler/collapsibe Button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Navbar links -->
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin/products}">Product Management</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<br>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-6 container justify-content-center card">
+            <h1 class="text-center"> Update Product </h1>
+            <div class="card-body">
+         
+                <form th:action="@{/admin/product/{id}(id=${product.id})}" th:object="${product}" method="POST" enctype="multipart/form-data">
+
+                    <div class="form-group">
+                        <label> Product Name </label>
+                        <input
+                                type="text"
+
+                                th:field="*{tenSp}"
+                                class="form-control"
+                                placeholder="Enter Product Name"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label> Product Description </label>
+                        <input
+                                type="text"
+
+                                th:field="*{moTa}"
+                                class="form-control"
+                                placeholder="Enter Product Description"
+                        />
+                    </div>
+
+                    <div class="form-group">
+                        <label> Product Price </label>
+                        <input
+                                type="text"
+
+                                th:field="*{gia}"
+                                class="form-control"
+                                placeholder="Enter Product Price"
+                        />
+                        <div class="form-group">
+                            <label> Số vote </label>
+                            <input
+                                    type="text"
+                                    name="quantity"
+                                    th:field="*{soVote}"
+                                    class="form-control"
+                                    placeholder="Số vote"
+                            />
+                        </div>
+                        <div class="form-group">
+                            <label> Kiểu bánh </label>
+                            <select th:field="*{categoryId}" class="form-select">
+                                <option
+                                        th:each="item : ${listCategory}"
+                                        th:value="${item.id}"
+                                        th:text="${item.tenCategory}" th:selected="${item.id==1}">
+                                </option>
+                            </select>
+
+                        </div>
+
+                        <div class="form-group">
+                            <label> giam gia </label>
+                            <input
+                                    type="text"
+                                    th:field="*{giamGia}"
+                                    class="form-control"
+                                    placeholder="Enter Product Price"
+                            />
+                        </div>
+                        <div>
+                            <label >Ảnh Hiện tại</label>
+                            <img th:src="@{/api/admin/product/image/{fileName}(fileName=${imageName})}" width="100px" height="100px" alt="anh product">
+                            <input th:field="*{image}" type="file">
+                        </div>
+                     
+                        <div>
+                            <p class="text-danger" th:text="${message}"></p>
+                        </div>
+
+                        
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary">
+                                Submit
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

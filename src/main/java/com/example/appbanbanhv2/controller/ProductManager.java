@@ -4,6 +4,7 @@ import com.example.appbanbanhv2.dto.ProductWithImageDTO;
 import com.example.appbanbanhv2.dto.ProductsDTO;
 import com.example.appbanbanhv2.entity.Category;
 import com.example.appbanbanhv2.entity.Products;
+import com.example.appbanbanhv2.repository.StorageRepository;
 import com.example.appbanbanhv2.service.CategoryService;
 import com.example.appbanbanhv2.service.ProductsService;
 import com.example.appbanbanhv2.service.StorageService;
@@ -22,6 +23,11 @@ import java.util.List;
 
 @Controller
 public class ProductManager {
+
+	
+    @Autowired
+    private StorageRepository repository;
+
 	@Autowired
 	private ProductsService productsService;
 	@Autowired
@@ -140,4 +146,46 @@ public class ProductManager {
 		return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png")).body(imageData);
 
 	}
+	//xóa product theo id
+	@GetMapping("/admin/product/{id}")
+	public String deleteStudent(@PathVariable int id) {
+		productsService.delete(id);
+		return "redirect:/admin/products";
+	}
+
+
+	//update anh
+	@GetMapping("/admin/product/edit/{id}")
+	public String editStudentForm(@PathVariable int id, Model model) {
+		Products tmp =productsService.find(id).get();
+		ProductsDTO productsDTO = new ProductsDTO();
+		ProductWithImageDTO productWithImageDTO = productsService.getProductWithImageById(id);
+		BeanUtils.copyProperties(tmp, productsDTO);
+		List<Category> listCategory = categoryService.findAll();
+		model.addAttribute("listCategory", listCategory);
+		String imageName = productWithImageDTO.getImageName();
+		model.addAttribute("imageName", imageName);
+		model.addAttribute("product", productsDTO);
+		return "edit_product";
+	}
+
+
+	@PostMapping("admin/product/{id}")
+	public String updateProDuct(@PathVariable int id,@ModelAttribute("product") ProductsDTO productsDTO) throws IOException
+			{	Products tmp = productsService.find(id).get();
+				BeanUtils.copyProperties(productsDTO,tmp );
+
+				System.out.println(tmp);
+				productsService.save(tmp);
+				MultipartFile file = productsDTO.getImage();
+
+				Integer idImage	=service.findIdImageByIdProduct(id);
+				if(!file.isEmpty()) {
+					repository.deleteById(((long)idImage));
+
+					service.uploadImage(file, (long) id);
+				}
+				return ("redirect:/admin/products");
+			}
+		
 }
