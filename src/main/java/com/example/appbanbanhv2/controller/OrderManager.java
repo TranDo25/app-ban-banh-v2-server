@@ -7,6 +7,7 @@ import com.example.appbanbanhv2.entity.Orders;
 import com.example.appbanbanhv2.service.OrdersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,6 +16,8 @@ import java.util.List;
 public class OrderManager {
     @Autowired
     private OrdersService orderService;
+    
+   
     //api create đơn hàng
     @PostMapping("/api/order/createOrder")
     public ResponseEntity<String> createOrder(@RequestBody List<Cart> dsCart) {
