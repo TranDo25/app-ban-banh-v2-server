@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="utf-8">
     <title>Product Management System</title>
     <link rel="stylesheet"
           href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
@@ -11,7 +11,7 @@
 <body>
 <nav class="navbar navbar-expand-md bg-dark navbar-dark">
     <!-- Brand -->
-    <a class="navbar-brand" href="#">Product Management System</a>
+    <a class="navbar-brand" th:href="@{/admin/products}">Product Management System</a>
 
     <!-- Toggler/collapsibe Button -->
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -22,7 +22,20 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/products}">Product Management</a>
+             <a class="nav-link" th:href="@{/admin/order/orderManagement}">Quản lý đơn hàng</a>
+               
+            </li>
+
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin/products}">Quản lý sản phẩm</a>
+            </li>
+
+        </ul>
+         <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/admin/products}">Quản lý danh mục sản phẩm</a>
             </li>
 
         </ul>
@@ -31,7 +44,7 @@
 
 <div class ="container">
     <div class = "row">
-        <h1>Danh sách bánh </h1>
+        <h1>Quản lý sản phẩm </h1>
     </div>
 
     <div class = "row">
@@ -42,19 +55,22 @@
     <table class = "table table-striped table-bordered">
         <thead class = "table-dark">
         <tr>
+        
+            <th> Số thứ tự</th>
             <th> Product Name</th>
             <th> Product Image</th>
             <th> Product Description</th>
             <th> Product Price </th>
-            <th> số vote </th>
-            <th> danh mục </th>
-            <th> gia khuyen mai </th>
+            <th> Số lượt yêu thích</th>
+            <th> danh mục sản phẩm </th>
+            <th> giá khuyến mại </th>
             <th> Action </th>
         </tr>
         </thead>
 
         <tbody>
-        <tr th:each = "product: ${products}">
+        <tr th:each = "product, index: ${products}">
+        	<td th:text=${index.count}></td>
             <td th:text = "${product.tenSp}"></td>
             <td>
                 <img th:src="@{/api/admin/product/image/{fileName}(fileName=${product.imageName})}" width="100px" height="100px" alt="anh product">
