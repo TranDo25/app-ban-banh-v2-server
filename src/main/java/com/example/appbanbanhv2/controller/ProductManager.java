@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.controller;
 
+
 import com.example.appbanbanhv2.dto.ProductWithImageDTO;
 import com.example.appbanbanhv2.dto.ProductsDTO;
 import com.example.appbanbanhv2.entity.Category;
@@ -46,6 +47,7 @@ public class ProductManager {
 //            String pathUrl = "/api/admin/product/image/";
 //            i.setImageName(pathUrl+ i.getImageName());
 //        }
+<<<<<<< Updated upstream
 		model.addAttribute("products", tmp);
 		return "products";
 	}
@@ -67,6 +69,31 @@ public class ProductManager {
 	public ResponseEntity<List<ProductWithImageDTO>> apiListProductByCategory(@PathVariable("id") int id) {
 //        model.addAttribute("products", productsService.findAll());
 		List<ProductWithImageDTO> tmp = productsService.findAllProductByCategory(id);
+=======
+                model.addAttribute("products", tmp);
+        return "products";
+    }
+//    @GetMapping("/api/admin/products")
+//    public List<ProductWithImageDTO> ApiListProduct(Model model) {
+////        model.addAttribute("products", productsService.findAll());
+//        List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
+//
+//        for(ProductWithImageDTO i:tmp){
+//            String pathUrl = "http://localhost:8080/api/admin/product/image/";
+//            i.setImageName(pathUrl+ i.getImageName());
+//        }
+////        model.addAttribute("products", tmp);
+//        return tmp;
+//    }
+    @GetMapping("/admin/products/addProduct")
+    public String addProductForm(Model model) {
+        ProductsDTO tmp = new ProductsDTO();
+        model.addAttribute("product", tmp);
+        List<Category> listCategory = categoryService.findAll();
+        model.addAttribute("listCategory", listCategory);
+        return "create_product";
+    }
+>>>>>>> Stashed changes
 
 		for (ProductWithImageDTO i : tmp) {
 			String pathUrl = ServerConfig.SERVER_IP_V4 + "api/admin/product/image/";
