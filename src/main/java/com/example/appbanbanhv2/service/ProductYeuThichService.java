@@ -1,5 +1,6 @@
 package com.example.appbanbanhv2.service;
 
+import com.example.appbanbanhv2.dto.ProductWithImageDTO;
 import com.example.appbanbanhv2.entity.ProductYeuThich;
 
 import org.springframework.data.domain.Page;
@@ -32,4 +33,8 @@ public interface ProductYeuThichService {
 
     int count();
 
+    List<ProductWithImageDTO> getAllSpYeuThichByUserId(String userId);
+
+
+    ProductYeuThich addNewProductYeuThich(String userId, int productId);
 }
