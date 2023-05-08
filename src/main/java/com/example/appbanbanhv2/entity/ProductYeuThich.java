@@ -1,7 +1,10 @@
 package com.example.appbanbanhv2.entity;
 
 import jakarta.persistence.*;
-
+import lombok.AllArgsConstructor;
+import lombok.Data;
+@AllArgsConstructor
+@Data
 @Entity
 @Table(name = "product_yeu_thich")
 public class ProductYeuThich {
@@ -15,27 +18,8 @@ public class ProductYeuThich {
     @Column(name = "users_id")
     private String usersId;
 
-    public Integer getId() {
-        return this.id;
-    }
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+    public ProductYeuThich() {
 
-    public Integer getIdProduct() {
-        return this.idProduct;
-    }
-
-    public void setIdProduct(Integer idProduct) {
-        this.idProduct = idProduct;
-    }
-
-    public String getUsersId() {
-        return this.usersId;
-    }
-
-    public void setUsersId(String usersId) {
-        this.usersId = usersId;
     }
 }
