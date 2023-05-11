@@ -63,4 +63,17 @@ public class UsersServiceImpl implements UsersService {
         return usersRepository.count();
     }
 
+    @Override
+    public String addNewUserAccountToDB(String email, String hoTen) {
+        Optional<Users> user = usersRepository.findById(email);
+        if(user.isEmpty()){
+            Users newUser = new Users(email, hoTen,  "", email);
+            usersRepository.save(newUser);
+            return "add new account success";
+        }
+        return "user is already exist";
+
+
+    }
+
 }

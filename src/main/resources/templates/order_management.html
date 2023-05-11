@@ -34,7 +34,7 @@
 
 			</ul>
 			<ul class="navbar-nav">
-				<li class="nav-item"><a class="nav-link" th:href="@{/admin/}">Quản
+				<li class="nav-item"><a class="nav-link" th:href="@{/admin/category}">Quản
 						lý danh mục sản phẩm</a></li>
 
 			</ul>
@@ -55,7 +55,7 @@
 						Cập nhật trạng thái đơn hàng</button>
 				</div>
 				<div class="col-lg-3">
-					<p class="text-danger" id="messageNofity" th:text=${message}></p>
+					<p class="text-danger" id="messageNofity" th:text="${message}"></p>
 				</div>
 			</div>
 			<table class="table table-striped table-bordered">
@@ -75,9 +75,9 @@
 
 				<tbody>
 					<tr th:each="order, index: *{listOrder}">
-					
+
 						<input type="text" th:field="*{listOrder[__${index.index}__].id}" hidden/>
-					
+
 						<td th:text=${index.count}></td>
 
 						<td><input
@@ -88,19 +88,19 @@
 								<option th:each="i : ${listTrangThaiGiaoHang}" th:value="${i}"
 									th:text="${i}" th:selected="${i}==${order.trangThaiDonHang}"></option>
 						</select></td>
-						<td 
+						<td
 							>
 							<input type="text" 	th:field="*{listOrder[__${index.index}__].sdt}"/>
 							</td>
-						<td 
+						<td
 							>
 							<input type="text" readonly	th:field="*{listOrder[__${index.index}__].tongtien}"/>
 							</td>
-						<td 
+						<td
 							>
 							<input type="text" 	th:field="*{listOrder[__${index.index}__].diachigiaohang}"/>
 							</td>
-						<td 
+						<td
 							>
 							<input type="text" readonly	th:field="*{listOrder[__${index.index}__].momoToken}"/>
 							</td>

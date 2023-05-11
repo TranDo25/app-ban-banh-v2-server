@@ -29,4 +29,5 @@ public interface UsersService {
 
     long count();
 
+    String addNewUserAccountToDB(String email, String hoTen);
 }

@@ -20,7 +20,7 @@ public class CategoryManager {
     
     @Autowired
     private CategoryService categoryService;
-
+//quản lý danh mục
     @GetMapping("/admin/category")
     public String listCategory(Model model){
         List<Category> cateList = categoryService.findAll();

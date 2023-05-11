@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.example.appbanbanhv2.dto.OrderManagementDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -52,7 +54,26 @@ public class OrderDashboardController {
 		model.addAttribute("listTrangThaiGiaoHang", listTrangThaiGiaoHang);
 		return "order_management";
 	}
-
+	@GetMapping("/api/admin/order/orderManagement")
+	public ResponseEntity<OrderManagementDTO> indexApi(Model model) {
+		List<Orders> listOrder = orderService.findAll();
+		OrderWrapperDTO orderWrapperDTO = new OrderWrapperDTO(listOrder);
+		//lấy về message redirect từ action khác
+		String message = (String) model.asMap().get("message");
+		model.addAttribute("message", message);
+		List<String> listTrangThaiGiaoHang = new ArrayList<>();
+		listTrangThaiGiaoHang.add("created");
+		listTrangThaiGiaoHang.add("prepared");
+		listTrangThaiGiaoHang.add("delivering");
+		listTrangThaiGiaoHang.add("delivered");
+		listTrangThaiGiaoHang.add("cancelled");
+//	    	List<Category> listCategory = _categoryService.findAll();
+		OrderManagementDTO dto = new OrderManagementDTO(orderWrapperDTO, listTrangThaiGiaoHang);
+//		model.addAttribute("orderWrapperDTO", orderWrapperDTO);
+////	    	model.addAttribute("listCategory", listCategory);
+//		model.addAttribute("listTrangThaiGiaoHang", listTrangThaiGiaoHang);
+		return ResponseEntity.ok(dto);
+	}
 	@PostMapping(path = "/admin/order/saveListStatus", consumes = { MediaType.APPLICATION_FORM_URLENCODED_VALUE })
 	public String processUpdateManyStatus(OrderWrapperDTO order, RedirectAttributes redirectAttributes) {
 		List<Orders> orderFromDTO = order.getListOrder();
