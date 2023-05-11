@@ -6,7 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
+
 @AllArgsConstructor
 @Entity
 @Table(name = "orders")
@@ -23,8 +23,8 @@ public class Orders {
     @Column(name = "trang_thai_don_hang")
     private String trangThaiDonHang;
 
-    @Column(name = "zalopay_token")
-    private String zalopayToken;
+    @Column(name = "momo_token")
+    private String momoToken;
 
     @Column(name = "sdt")
     private String sdt;
@@ -38,7 +38,6 @@ public class Orders {
     @Column(name = "diachigiaohang")
     private String diachigiaohang;
 
-<<<<<<< Updated upstream
     public Orders(int id,String ngayTaoDon, String trangThaiDonHang, String momoToken, String sdt, Integer soluong, Double tongtien, String diachigiaohang) {
         this.id = id;
         this.ngayTaoDon = ngayTaoDon;
@@ -80,13 +79,7 @@ public class Orders {
         this.trangThaiDonHang = trangThaiDonHang;
     }
 
-    public String getMomoToken() {
-        return this.momoToken;
-    }
 
-    public void setMomoToken(String momoToken) {
-        this.momoToken = momoToken;
-    }
 
     public String getSdt() {
         return this.sdt;
@@ -120,6 +113,4 @@ public class Orders {
         this.diachigiaohang = diachigiaohang;
     }
 }
-=======
-   }
->>>>>>> Stashed changes
+

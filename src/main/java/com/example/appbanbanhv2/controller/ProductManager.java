@@ -45,28 +45,23 @@ public class ProductManager {
 
     @GetMapping("/admin/products")
     public String listProduct(Model model) {
-//        model.addAttribute("products", productsService.findAll());
+
         List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
 
-//        for(ProductWithImageDTO i:tmp){
-//            String pathUrl = "/api/admin/product/image/";
-//            i.setImageName(pathUrl+ i.getImageName());
-//        }
-<<<<<<< HEAD
-<<<<<<< Updated upstream
+
 		model.addAttribute("products", tmp);
 		return "products";
 	}
 //api này lấy toàn bộ product
-	@GetMapping("/api/admin/products")
-	public ResponseEntity<List<ProductWithImageDTO>> apiListProduct() {
-//        model.addAttribute("products", productsService.findAll());
-		List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
-=======
-        model.addAttribute("products", tmp);
-        return "products";
-    }
->>>>>>> eaa1fcac869126f6f18cbc26b0f5fa9ac7f54847
+//	@GetMapping("/api/admin/products")
+//	public ResponseEntity<List<ProductWithImageDTO>> apiListProduct() {
+////        model.addAttribute("products", productsService.findAll());
+//		List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
+//
+//        model.addAttribute("products", tmp);
+//        return "products";
+//    }
+
 
     //api này lấy danh sách sản phẩm yêu thích theo id user
     @GetMapping("/api/getListSanPhamYeuThichByIdUser")
@@ -81,15 +76,13 @@ public class ProductManager {
     }
 
     //api này lấy toàn bộ product
-    @GetMapping("/api/admin/products")
-    public ResponseEntity<List<ProductWithImageDTO>> apiListProduct() {
-//        model.addAttribute("products", productsService.findAll());
-<<<<<<< HEAD
-		List<ProductWithImageDTO> tmp = productsService.findAllProductByCategory(id);
-=======
-                model.addAttribute("products", tmp);
-        return "products";
-    }
+//    @GetMapping("/api/admin/products")
+//    public ResponseEntity<List<ProductWithImageDTO>> apiListProduct() {
+////        model.addAttribute("products", productsService.findAll());
+//		List<ProductWithImageDTO> tmp = productsService.findAllProductByCategory(id);
+//                model.addAttribute("products", tmp);
+//        return "products";
+//    }
 //    @GetMapping("/api/admin/products")
 //    public List<ProductWithImageDTO> ApiListProduct(Model model) {
 ////        model.addAttribute("products", productsService.findAll());
@@ -102,26 +95,24 @@ public class ProductManager {
 ////        model.addAttribute("products", tmp);
 //        return tmp;
 //    }
-    @GetMapping("/admin/products/addProduct")
-    public String addProductForm(Model model) {
-        ProductsDTO tmp = new ProductsDTO();
-        model.addAttribute("product", tmp);
-        List<Category> listCategory = categoryService.findAll();
-        model.addAttribute("listCategory", listCategory);
-        return "create_product";
-    }
->>>>>>> Stashed changes
-=======
-        List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
->>>>>>> eaa1fcac869126f6f18cbc26b0f5fa9ac7f54847
+//    @GetMapping("/admin/products/addProduct")
+//    public String addProductForm(Model model) {
+//        ProductsDTO tmp = new ProductsDTO();
+//        model.addAttribute("product", tmp);
+//        List<Category> listCategory = categoryService.findAll();
+//        model.addAttribute("listCategory", listCategory);
+//        return "create_product";
+//    }
 
-        for (ProductWithImageDTO i : tmp) {
-            String pathUrl = ServerConfig.SERVER_IP_V4 + "api/admin/product/image/";
-            i.setImageName(pathUrl + i.getImageName());
-        }
-//                model.addAttribute("products", tmp);
-        return ResponseEntity.ok(tmp);
-    }
+//        List<ProductWithImageDTO> tmp = productsService.findAllProductAndItsImage();
+//
+//        for (ProductWithImageDTO i : tmp) {
+//            String pathUrl = ServerConfig.SERVER_IP_V4 + "api/admin/product/image/";
+//            i.setImageName(pathUrl + i.getImageName());
+//        }
+////                model.addAttribute("products", tmp);
+//        return ResponseEntity.ok(tmp);
+//    }
 
     //api này lấy ra tất cả danh sách sản phẩm theo id category
     @GetMapping("/api/admin/productsByCategory/{id}")
