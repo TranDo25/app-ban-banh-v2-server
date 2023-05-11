@@ -36,5 +36,5 @@ public interface ProductYeuThichService {
     List<ProductWithImageDTO> getAllSpYeuThichByUserId(String userId);
 
 
-    ProductYeuThich addNewProductYeuThich(String userId, int productId);
+    String addNewProductYeuThich(String userId, int productId);
 }

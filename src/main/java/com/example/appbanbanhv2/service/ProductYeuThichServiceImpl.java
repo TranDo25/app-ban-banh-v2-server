@@ -101,7 +101,11 @@ public class ProductYeuThichServiceImpl implements ProductYeuThichService {
     }
 
     @Override
-    public ProductYeuThich addNewProductYeuThich(String userId, int productId) {
+    public String addNewProductYeuThich(String userId, int productId) {
+       Optional<ProductYeuThich> productYeuThich = _yeuthichRepo.findProductYeuThichByIdProductAndUsersId(productId, userId);
+       if(productYeuThich.isPresent()){
+           return "san pham da duoc yeu thich";
+       }
         Products productTmp = _productRepo.findById(productId).get();
         productTmp.setSoVote(productTmp.getSoVote()+1);
         _productRepo.save(productTmp);
@@ -115,7 +119,7 @@ public class ProductYeuThichServiceImpl implements ProductYeuThichService {
         }
         ProductYeuThich res = _yeuthichRepo.save(tmp);
 
-        return res;
+        return "them moi sp yeu thich thanh cong";
     }
 
 }

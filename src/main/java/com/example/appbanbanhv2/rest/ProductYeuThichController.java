@@ -28,13 +28,9 @@ public class ProductYeuThichController {
     //api thêm sản phẩm yêu thích khi click icon heart
     @GetMapping("/api/addSanPhamYeuThich")
     public ResponseEntity<MessageDTO> addSanPhamYeuThich(@RequestParam("userId") String userId, @RequestParam("product_id") int product_id) {
-        ProductYeuThich res = productyeuthichService.addNewProductYeuThich(userId, product_id);
+        String res = productyeuthichService.addNewProductYeuThich(userId, product_id);
         MessageDTO dto = new MessageDTO();
-        if (res != null) {
-            dto.setMessage("successful");
-        } else {
-            dto.setMessage("error");
-        }
+        dto.setMessage(res);
         return ResponseEntity.ok(dto);
     }
 
